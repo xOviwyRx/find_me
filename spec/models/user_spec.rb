@@ -16,4 +16,14 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
+
+  describe "normalization" do
+    it "downcases, removes spaces, and cuts 'test' from text fields" do
+      user = User.new(first_name: " Test John ", last_name: "Do e", email: "Test.User@Example.COM ")
+
+      expect(user.first_name).to eq("john")
+      expect(user.last_name).to eq("doe")
+      expect(user.email).to eq(".user@example.com")
+    end
+  end
 end
