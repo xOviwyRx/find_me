@@ -1,0 +1,12 @@
+= form_with model: user, url: users_path do |f|
+  - if user.errors.any?
+    .alert.alert-danger.py-1= user.errors.full_messages.to_sentence
+  .row.g-2
+    .col
+      = f.text_field :first_name, placeholder: "First name", class: "form-control"
+    .col
+      = f.text_field :last_name, placeholder: "Last name", class: "form-control"
+    .col
+      = f.email_field :email, placeholder: "Email", class: "form-control"
+    .col-auto
+      = f.button "Add user", class: "btn btn-primary action-btn"

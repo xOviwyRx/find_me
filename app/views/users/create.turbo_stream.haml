@@ -1,0 +1,6 @@
+- if @user.persisted?
+  = turbo_stream.prepend "users", partial: "users/user", locals: { user: @user }
+  = turbo_stream.update "users_count", @brand.users_count.to_s
+  = turbo_stream.update "user_form", partial: "users/form", locals: { user: User.new }
+- else
+  = turbo_stream.update "user_form", partial: "users/form", locals: { user: @user }

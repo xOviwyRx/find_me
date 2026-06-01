@@ -1,10 +1,22 @@
 .container
-  .row
+  .row.mt-4
     .col
       .card.mb-3
         .card-body
           %h2.card-title Brand
           = render "brands/form"
+  .row
+    .col
+      .card.mb-3
+        .card-body
+          %h2.card-title Users
+          %p
+            Total:
+            %span#users_count= @brand.users_count
+          #users
+            = render @brand.users
+          #user_form
+            = render "users/form", user: User.new
   .row
     .col
       .card
