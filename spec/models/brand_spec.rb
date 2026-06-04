@@ -21,4 +21,13 @@ RSpec.describe Brand, type: :model do
       expect(Brand.new(name: " Test Acme ").name).to eq("acme")
     end
   end
+
+  describe "database protection" do
+    it "rejects a negative users_count" do
+      brand = create(:brand)
+
+      expect { brand.update_column(:users_count, -1) }
+        .to raise_error(ActiveRecord::StatementInvalid)
+    end
+  end
 end
