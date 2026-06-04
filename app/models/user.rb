@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   include NormalizesText
 
-  has_many :settings, dependent: :destroy
-  has_many :brands, through: :settings
+  has_many :user_brands, dependent: :destroy
+  has_many :brands, through: :user_brands
+  has_many :settings, as: :settable, dependent: :destroy
 
   normalizes_text :first_name, :last_name, :email
 

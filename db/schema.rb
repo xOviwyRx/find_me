@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_01_000003) do
+ActiveRecord::Schema[8.0].define(version: 2026_06_01_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,15 +23,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_01_000003) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.bigint "brand_id", null: false
-    t.bigint "user_id", null: false
-    t.string "key"
-    t.string "value"
+    t.string "settable_type", null: false
+    t.bigint "settable_id", null: false
+    t.string "key", null: false
+    t.string "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["brand_id"], name: "index_settings_on_brand_id"
-    t.index ["user_id", "brand_id"], name: "index_settings_on_user_id_and_brand_id", unique: true
-    t.index ["user_id"], name: "index_settings_on_user_id"
+    t.index ["settable_type", "settable_id"], name: "index_settings_on_settable"
+    t.index ["settable_type", "settable_id"], name: "index_settings_on_user_brand_uniqueness", unique: true, where: "((settable_type)::text = 'UserBrand'::text)"
+  end
+
+  create_table "user_brands", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "brand_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_user_brands_on_brand_id"
+    t.index ["user_id", "brand_id"], name: "index_user_brands_on_user_id_and_brand_id", unique: true
+    t.index ["user_id"], name: "index_user_brands_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,6 +52,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_01_000003) do
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
   end
 
-  add_foreign_key "settings", "brands"
-  add_foreign_key "settings", "users"
+  add_foreign_key "user_brands", "brands"
+  add_foreign_key "user_brands", "users"
 end

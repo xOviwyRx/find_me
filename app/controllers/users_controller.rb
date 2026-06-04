@@ -1,7 +1,7 @@
 class UsersController < BaseController
   def create
     @user = User.new(user_params)
-    @user.settings.build(brand: @brand)
+    @user.user_brands.build(brand: @brand)
     @user.save
     @brand.reload
 

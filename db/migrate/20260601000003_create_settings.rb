@@ -1,14 +1,16 @@
 class CreateSettings < ActiveRecord::Migration[8.0]
   def change
     create_table :settings do |t|
-      t.references :brand, null: false, foreign_key: true
-      t.references :user, null: false, foreign_key: true
-      t.string :key
-      t.string :value
+      t.references :settable, polymorphic: true, null: false
+      t.string :key, null: false
+      t.string :value, null: false
 
       t.timestamps
     end
 
-    add_index :settings, [:user_id, :brand_id], unique: true
+    add_index :settings, [ :settable_type, :settable_id ],
+              unique: true,
+              where: "settable_type = 'UserBrand'",
+              name: "index_settings_on_user_brand_uniqueness"
   end
 end

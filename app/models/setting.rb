@@ -1,6 +1,6 @@
 class Setting < ApplicationRecord
-  belongs_to :brand, counter_cache: :users_count
-  belongs_to :user
+  belongs_to :settable, polymorphic: true
 
-  validates :user_id, uniqueness: { scope: :brand_id }
+  validates :key, presence: true
+  validates :value, presence: true
 end

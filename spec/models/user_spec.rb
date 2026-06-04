@@ -6,8 +6,9 @@ RSpec.describe User, type: :model do
   subject(:user) { build(:user) }
 
   describe "associations" do
+    it { is_expected.to have_many(:user_brands).dependent(:destroy) }
+    it { is_expected.to have_many(:brands).through(:user_brands) }
     it { is_expected.to have_many(:settings).dependent(:destroy) }
-    it { is_expected.to have_many(:brands).through(:settings) }
   end
 
   describe "validations" do
