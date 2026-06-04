@@ -1,3 +1,3 @@
 .d-flex.align-items-center.justify-content-between.mb-2{id: dom_id(user)}
-  %span= "#{user.first_name} #{user.last_name} (#{user.email})"
+  %span= user_display_name(user)
   = button_to "Remove", user_path(user), method: :delete, class: "btn btn-danger action-btn", form: { data: { turbo_confirm: "Remove this user?" } }
