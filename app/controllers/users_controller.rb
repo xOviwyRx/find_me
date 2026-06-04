@@ -1,11 +1,10 @@
 class UsersController < BaseController
   def create
-    @user = User.new(user_params)
-    @user.user_brands.build(brand: @brand)
-    @user.save
+    result = Users::Create.result(brand: @brand, attributes: user_params)
+    @user = result.user
     @brand.reload
 
-    render :create, status: @user.persisted? ? :ok : :unprocessable_entity
+    render :create, status: result.success? ? :ok : :unprocessable_entity
   end
 
   def destroy
